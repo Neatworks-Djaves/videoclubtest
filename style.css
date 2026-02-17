@@ -1,0 +1,114 @@
+:root {
+  color-scheme: dark;
+  font-family: "Press Start 2P", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #2f2242, #130b1f 58%, #090610);
+  color: #ece4ff;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 380px) 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.hud,
+.game-shell {
+  border: 3px solid #7054ac;
+  background: #19112e;
+  box-shadow: 0 0 0 3px #2d1d4a inset;
+}
+
+.hud {
+  padding: 1rem;
+}
+
+h1 {
+  margin: 0 0 0.8rem;
+  font-size: 1.15rem;
+  color: #ffc65a;
+}
+
+h2 {
+  margin: 1.1rem 0 0.5rem;
+  color: #c7b0ff;
+  font-size: 0.76rem;
+}
+
+p {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+kbd {
+  border: 1px solid #9d8ac9;
+  background: #2f2242;
+  padding: 0.1rem 0.35rem;
+}
+
+.stats {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+}
+
+.actions {
+  display: grid;
+  gap: 0.45rem;
+}
+
+button {
+  width: 100%;
+  border: 2px solid #ffc65a;
+  background: #593f89;
+  color: #fff7dd;
+  padding: 0.55rem;
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.65rem;
+  cursor: pointer;
+}
+
+button:hover:enabled {
+  filter: brightness(1.12);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#restart {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.game-shell {
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+}
+
+canvas {
+  width: min(100%, 1100px);
+  height: auto;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 1080px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
