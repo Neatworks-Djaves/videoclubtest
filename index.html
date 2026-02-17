@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retro Video Club Sim</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="hud">
+        <h1>Retro Video Club Sim</h1>
+        <p>
+          Déplace-toi avec <kbd>ZQSD</kbd>/<kbd>WASD</kbd> ou <kbd>←↑→↓</kbd>. <kbd>Espace</kbd>
+          sert un client au comptoir (si pas d'employé).
+        </p>
+
+        <div class="stats">
+          <span id="phase">Phase: Choix de quartier</span>
+          <span id="day">Jour: 0</span>
+          <span id="cash">Cash: 0€</span>
+          <span id="timer">Temps: 0s</span>
+          <span id="rent">Loyer: 0€</span>
+          <span id="traffic">Passage: -</span>
+          <span id="inventory">Films en stock: 0</span>
+        </div>
+
+        <h2>1) Choisir ton quartier</h2>
+        <div class="actions" id="locationButtons">
+          <button data-location="centre">Centre-ville (loyer élevé, fort passage)</button>
+          <button data-location="residentiel">Résidentiel (équilibré)</button>
+          <button data-location="banlieue">Banlieue (loyer bas, passage faible)</button>
+        </div>
+
+        <h2>2) Installation (temps limité)</h2>
+        <div class="actions">
+          <button id="placeShelf">Placer une étagère (120€)</button>
+          <button id="placeCounter">Placer comptoir + caisse (220€)</button>
+          <button id="hireEmployee">Engager un employé (80€ / jour)</button>
+          <button id="openNow">Ouvrir plus tôt</button>
+        </div>
+
+        <h2>Conseil</h2>
+        <p id="hint">Choisis d'abord un quartier pour commencer.</p>
+
+        <button id="restart">Nouvelle partie</button>
+      </section>
+
+      <section class="game-shell">
+        <canvas id="game" width="960" height="600" aria-label="Jeu vidéo club"></canvas>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
