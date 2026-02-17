@@ -34,6 +34,15 @@ const COUNTER_COST = 220;
 const EMPLOYEE_DAILY_COST = 80;
 const SETUP_TIME = 50;
 const DAY_TIME = 75;
+
+const MOVIE_GENRES = [
+  { name: "Action", color: "#ff5d88", priceMin: 8, priceMax: 13 },
+  { name: "Horreur", color: "#9dff6f", priceMin: 7, priceMax: 12 },
+  { name: "Sci-Fi", color: "#63ddff", priceMin: 9, priceMax: 14 },
+  { name: "Comédie", color: "#ffe06f", priceMin: 6, priceMax: 11 },
+  { name: "Drame", color: "#c59bff", priceMin: 7, priceMax: 12 },
+];
+
 let state;
 
 function resetGame() {
@@ -306,8 +315,16 @@ function movePlayer(delta) {
   }
 }
 
+function pickRandomGenre() {
+  return MOVIE_GENRES[Math.floor(Math.random() * MOVIE_GENRES.length)];
+}
+
 function spawnClient() {
   const available = state.shelves.length > 0 && state.inventory > 0;
+  const genre = pickRandomGenre();
+  const valueRange = genre.priceMax - genre.priceMin + 1;
+  const value = genre.priceMin + Math.floor(Math.random() * valueRange);
+
   state.clients.push({
     x: 30,
     y: 100 + Math.random() * 440,
@@ -317,7 +334,9 @@ function spawnClient() {
     state: available ? "browse" : "leave",
     browseTimer: 2 + Math.random() * 3,
     patience: 12 + Math.random() * 8,
-    value: 7 + Math.floor(Math.random() * 7),
+    value,
+    genre,
+    hasMovie: false,
   });
 }
 
@@ -360,6 +379,7 @@ function updateOpenPhase(delta) {
       if (client.browseTimer <= 0) {
         if (state.inventory > 0) {
           state.inventory -= 1;
+          client.hasMovie = true;
           client.state = "queue";
           state.queue.push(client);
         } else {
@@ -425,7 +445,17 @@ function drawFloor() {
   ctx.fillStyle = "#fff2cb";
   ctx.font = "16px monospace";
   ctx.fillText("RETRO VIDEO CLUB", 50, 84);
+
+  ctx.font = "11px monospace";
+  ctx.fillStyle = "#e7dcff";
+  ctx.fillText("Genres:", canvas.width - 320, 82);
+  let gx = canvas.width - 255;
+  for (const genre of MOVIE_GENRES) {
+    drawRect(gx, 72, 10, 10, genre.color, "#1a122b");
+    gx += 14;
+  }
 }
+
 
 function drawTitleScreen() {
   drawFloor();
@@ -485,10 +515,32 @@ function drawObjectsAndActors() {
   }
 
   for (const client of state.clients) {
-    drawRect(client.x, client.y, client.w, client.h, "#a6f3ff", "#173d4f");
+    drawCustomer(client);
   }
 
   drawRect(state.player.x, state.player.y, state.player.w, state.player.h, "#ffa36f", "#3f1a0b");
+}
+
+function drawCustomer(client) {
+  const cx = client.x + client.w / 2;
+  const cy = client.y + client.h / 2;
+
+  // tête
+  drawRect(cx - 5, cy - 13, 10, 9, "#ffd6b3", "#6f4127");
+  // corps
+  drawRect(cx - 6, cy - 4, 12, 11, "#8ec8ff", "#21486d");
+  // jambes
+  drawRect(cx - 5, cy + 7, 4, 8, "#40355f", "#241a3e");
+  drawRect(cx + 1, cy + 7, 4, 8, "#40355f", "#241a3e");
+  // bras
+  drawRect(cx - 10, cy - 3, 4, 8, "#ffd6b3", "#6f4127");
+  drawRect(cx + 6, cy - 3, 4, 8, "#ffd6b3", "#6f4127");
+
+  if (client.hasMovie) {
+    // cassette VHS dans la main droite
+    drawRect(cx + 10, cy - 1, 8, 5, client.genre.color, "#120d1d");
+    drawRect(cx + 12, cy, 2, 3, "#efe9ff", "#120d1d");
+  }
 }
 
 function drawReportOverlay() {
